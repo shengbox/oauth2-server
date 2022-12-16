@@ -24,7 +24,7 @@ func main() {
 	sessionStroe := cookie.NewStore([]byte("secret"))
 	g := gin.Default()
 	g.LoadHTMLGlob("web/*")
-	g.Static("/static", "static")
+	// g.Static("/static", "static")
 	g.Use(sessions.Sessions("mysession", sessionStroe))
 	manager := manage.NewDefaultManager()
 	manager.SetAuthorizeCodeTokenCfg(manage.DefaultAuthorizeCodeTokenCfg)
