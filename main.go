@@ -36,7 +36,7 @@ func main() {
 		Domain: "http://localhost",
 	})
 	manager.MapClientStorage(clientStore)
-	ginserver.InitServer(manager)
+	gServer := ginserver.InitServer(manager)
 	ginserver.SetAllowedGrantType(oauth2.AuthorizationCode, oauth2.Refreshing)
 	ginserver.SetAllowGetAccessRequest(true)
 	ginserver.SetClientInfoHandler(server.ClientFormHandler)
@@ -90,5 +90,9 @@ func main() {
 	}
 	g.GET("/", ctrl.Index)
 	g.GET("/logout", ctrl.Logout)
+
+	g.DELETE("/oauth/token", func(ctx *gin.Context) {
+		gServer.Manager.RemoveAccessToken(ctx.Query("access_token"))
+	})
 	_ = g.Run(":9096")
 }
